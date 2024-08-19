@@ -1,0 +1,18 @@
+<?php
+session_start();
+include("admin/config/bd.php");
+
+if (isset($_POST['videoId']) && isset($_POST['isChecked'])) {
+    $videoId = $_POST['videoId'];
+    $isChecked = $_POST['isChecked'];
+
+    // Actualizar la tabla user_video_progress
+    $userId = $_SESSION['userId'];  // Asegúrate de tener $_SESSION['userId'] correctamente configurado
+    $stmt = $conexion->prepare("REPLACE INTO USER_VIDEO_PROGRESS (iduser, idvideo, isdone) VALUES (?, ?, ?)");
+    $stmt->execute([$userId, $videoId, $isChecked]);
+
+    echo 'Estado guardado correctamente.';
+} else {
+    echo 'Error al guardar el estado.';
+}
+?>
